@@ -54,3 +54,6 @@ services:
       - mysql
     volumes:
       - ./:/var/www/html:delegated
+      - ../paintec/backoffice/prestashop/modules/tc_paintec_cms:/var/www/html/modules/tc_paintec_cms
+      - ../paintec/backoffice/prestashop/img/tc_paintec_cms:/var/www/html/img/tc_paintec_cms
+      - ../paintec/backoffice/prestashop/themes/tc_paintec_theme:/var/www/html/themes/tc_paintec_theme
