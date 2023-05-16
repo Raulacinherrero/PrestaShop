@@ -24,9 +24,39 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
 
-define('_PS_INSTALL_VERSION_', '8.1.0');
-define('_PS_INSTALL_MINIMUM_PHP_VERSION_ID_', 80100);
-define('_PS_INSTALL_MAXIMUM_PHP_VERSION_ID_', 80199);
+declare(strict_types=1);
 
-define('_PS_INSTALL_MINIMUM_PHP_VERSION_', '8.1');
-define('_PS_INSTALL_MAXIMUM_PHP_VERSION_', '8.1');
+namespace PrestaShopBundle\Form\Admin\Sell\Customer;
+
+use PrestaShop\PrestaShop\Adapter\Form\ChoiceProvider\GroupByIdChoiceProvider;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class GroupType extends AbstractType
+{
+    /**
+     * @var GroupByIdChoiceProvider
+     */
+    private $groupByIdChoiceProvider;
+
+    public function __construct(GroupByIdChoiceProvider $groupByIdChoiceProvider)
+    {
+        $this->groupByIdChoiceProvider = $groupByIdChoiceProvider;
+    }
+
+    public function getParent(): string
+    {
+        return ChoiceType::class;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'placeholder' => null,
+            'choices' => $this->groupByIdChoiceProvider->getChoices(),
+            'choice_translation_domain' => false,
+            'autocomplete' => true,
+        ]);
+    }
+}
